@@ -1,0 +1,6 @@
+...
+  sudo apt install fprintd libfprint-2-2 libpam-fprintd # install components
+
+  sudo pam-auth-update # allow fingerprint auth
+   ODER: Um das PAM-Modul zur aktivieren, editiert man mit Root-Rechten[2] die /etc/pam.d/common-auth-Datei[3] und trägt die folgende Zeile ein - sie muss als erste Zeile im Primary-Block eingesetzt werden:
+  auth sufficient /lib/x86_64-linux-gnu/security/pam_fprintd.so
