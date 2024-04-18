@@ -1,8 +1,66 @@
-# install Signal
-# install Veracrypt
-# GIMP
-# VSCode
-# docker
-# docker-compose
-# Tor
-# Git
+---
+- hosts: debian12
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Signal
+      apt:
+        name: signal-desktop
+        state: present
+
+    - name: Install Veracrypt
+      apt:
+        name: veracrypt
+        state: present
+
+    - name: Install GIMP
+      apt:
+        name: gimp
+        state: present
+
+     - name: Add Microsoft repository for VSCode
+      apt_repository:
+        repo: deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/repos/vscode stable main
+        state: present
+
+    - name: Install VSCode
+      apt:
+        name: code
+        state: present
+
+    - name: Add Docker repository
+      block:
+        - apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            state: present
+        - apt_repository:
+            repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
+            state: present
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Install Tor
+      apt:
+        name: tor
+        state: present
+
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+
+    - name: Install KeePass
+      apt:
+        name: keepass2
+        state: present

@@ -1,3 +1,13 @@
-...
-  sudo apt install wireguard # install wireguard 
-  systemctl enable wg-quick@franz.t440s # connect to VPN on startup
+---
+- hosts: debian12
+  become: yes
+  tasks:
+    - name: Install Wireguard
+      apt:
+        name: wireguard
+        state: present
+
+    - name: Enable Wireguard at startup
+      systemd:
+        name: wg-quick@franz.t440s
+        enabled: yes
