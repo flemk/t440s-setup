@@ -1,49 +1,105 @@
 ---
-- hosts: debian12
+- hosts: localhost
   become: yes
   tasks:
     - name: Update apt cache
       apt:
         update_cache: yes
 
+    - name: Add Signal repository key
+      apt_key:
+        url: https://updates.signal.org/desktop/apt/keys.asc
+        state: present
+
+    - name: Add Signal repository
+      apt_repository:
+        repo: 'deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main'
+        state: present
+
     - name: Install Signal
       apt:
         name: signal-desktop
         state: present
 
-    - name: Install Veracrypt
+    - name: Install dependencies for VeraCrypt
       apt:
-        name: veracrypt
+        name:
+          - makeself
+          - libfuse-dev
         state: present
+
+    # TODO always download newest Veracrypt version
+    # TODO install GUI too
+    # TODO installer is not executed
+    - name: Download VeraCrypt
+      get_url:
+        url: https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-setup.tar.bz2
+        dest: /tmp/veracrypt.tar.bz2
+
+    - name: Extract and run VeraCrypt setup script
+      command: /tmp/veracrypt-1.24-Update7-setup-console-x64 --noexec --target /tmp/veracrypt && /tmp/veracrypt-1.24-Update7-setup-console-x64
 
     - name: Install GIMP
       apt:
         name: gimp
         state: present
 
-     - name: Add Microsoft repository for VSCode
+    - name: Install dependencies for Microsoft repository
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - software-properties-common
+        - apt-transport-https
+        - wget
+
+    - name: Import Microsoft GPG key
+      shell: wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+    - name: Add Visual Studio Code repository
       apt_repository:
-        repo: deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/repos/vscode stable main
+        repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
         state: present
 
-    - name: Install VSCode
+    - name: Install Visual Studio Code
       apt:
         name: code
         state: present
 
-    - name: Add Docker repository
-      block:
-        - apt_key:
-            url: https://download.docker.com/linux/ubuntu/gpg
-            state: present
-        - apt_repository:
-            repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
-            state: present
-
-    - name: Install Docker
+    - name: Update apt cache and install required packages
       apt:
-        name: docker.io
+        name:
+          - ca-certificates
+          - curl
+        update_cache: yes
         state: present
+
+    - name: Create /etc/apt/keyrings directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Download Docker's official GPG key
+      get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: '0644'
+
+    - name: Add Docker repository
+      shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    - name: Install Docker and plugins
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+
+    # TODO add user to docker group ?
 
     - name: Install Docker Compose
       apt:

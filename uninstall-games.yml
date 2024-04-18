@@ -1,0 +1,12 @@
+---
+- hosts: debian12
+  become: yes
+  tasks:
+    - name: Uninstall games
+      apt:
+        name:
+          - gnome-games
+          - gnome-games-data
+          - gnome-games-extra-data
+          - bsdgames
+        state: absent

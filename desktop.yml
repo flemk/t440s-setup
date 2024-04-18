@@ -1,33 +1,11 @@
 ---
 - name: Install Visual Studio Code, Dash to Dock, and Desktop Icons
-  hosts: all
+  hosts: localhost
   become: yes
   tasks:
     - name: Update package index
       apt:
         update_cache: yes
-
-    - name: Install dependencies for Microsoft repository
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - software-properties-common
-        - apt-transport-https
-        - wget
-
-    - name: Import Microsoft GPG key
-      shell: wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-
-    - name: Add Visual Studio Code repository
-      apt_repository:
-        repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-        state: present
-
-    - name: Install Visual Studio Code
-      apt:
-        name: code
-        state: present
 
     - name: Enable GNOME Shell Extensions user-theme
       become_user: "{{ ansible_user }}"
