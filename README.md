@@ -1,3 +1,5 @@
+> ⚠️ This repository is heavily work in progress
+
 # t440s-setup
 
 This repository contains Ansible playbooks for setting up a Debian 12 system with GNOME.
