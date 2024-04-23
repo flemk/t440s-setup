@@ -116,7 +116,37 @@
         name: git
         state: present
 
-    - name: Install KeePass
+    - name: Install KeePassXC
       apt:
-        name: keepass2
+        name: keepassxc
+        state: present
+
+    - name: Install Xournal++
+      apt:
+        name: xournalpp
+        state: present
+
+    - name: Install Total Commander
+      apt:
+        name: totalcmd
+        state: present
+
+    - name: Install Krusader
+      apt:
+        name: krusader
+        state: present
+
+    - name: Install KDiff3
+      apt:
+        name: kdiff3
+        state: present
+
+    - name: Install LTspice
+      apt:
+        name: ltspice
+        state: present
+
+    - name: Install KiCad
+      apt:
+        name: kicad
         state: present

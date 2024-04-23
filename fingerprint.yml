@@ -1,5 +1,5 @@
 ---
-- hosts: debian12
+- hosts: localhost
   become: yes
   tasks:
     - name: Install fingerprint components
@@ -10,7 +10,7 @@
           - libpam-fprintd
         state: present
 
-    # NOT TESTES - may have serious consequences. Have a backup!
+    # NOT TESTED - may have serious consequences. Have a backup!
     - name: Add pam_fprintd.so to /etc/pam.d/common-auth
       lineinfile:
         path: /etc/pam.d/common-auth

@@ -1,0 +1,3 @@
+mmcli --list-modems
+mmcli --modem 0 --messaging-list-sms
+mmcli --modem 0 --sms 0
