@@ -1,3 +1,12 @@
 # speedtest-cli
+
 # lm-sensors
+
 # mmcli
+
+# deactivate bluetooth on startup
+# edit /etc/bluetooth/main.conf and find the line
+# AutoEnable=true
+# and replace it with:
+# AutoEnable=false
+
