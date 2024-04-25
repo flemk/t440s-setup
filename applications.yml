@@ -31,13 +31,13 @@
     # TODO always download newest Veracrypt version
     # TODO install GUI too
     # TODO installer is not executed
-    - name: Download VeraCrypt
-      get_url:
-        url: https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-setup.tar.bz2
-        dest: /tmp/veracrypt.tar.bz2
+#    - name: Download VeraCrypt
+#      get_url:
+#        url: https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-setup.tar.bz2
+#        dest: /tmp/veracrypt-1.24-Update7-setup.tar.bz2
 
-    - name: Extract and run VeraCrypt setup script
-      command: /tmp/veracrypt-1.24-Update7-setup-console-x64 --noexec --target /tmp/veracrypt && /tmp/veracrypt-1.24-Update7-setup-console-x64
+#    - name: Extract and run VeraCrypt setup script
+#      command: /tmp/veracrypt-1.24-Update7-setup-console-x64 --noexec --target /tmp/veracrypt && /tmp/veracrypt-1.24-Update7-setup-console-x64
 
     - name: Install GIMP
       apt:
@@ -126,10 +126,10 @@
         name: xournalpp
         state: present
 
-    - name: Install Total Commander
-      apt:
-        name: totalcmd
-        state: present
+#    - name: Install Total Commander
+#      apt:
+#        name: totalcmd
+#        state: present
 
     - name: Install Krusader
       apt:

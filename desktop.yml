@@ -8,7 +8,7 @@
         update_cache: yes
 
     - name: Enable GNOME Shell Extensions user-theme
-      become_user: "{{ ansible_user }}"
+      #become_user: "{{ ansible_user }}"
       shell: dbus-launch gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com']"
 
     - name: Install GNOME Shell Extensions dependencies
@@ -20,21 +20,21 @@
         - chrome-gnome-shell
 
     - name: Install GNOME Shell Extensions prerequisites
-      become_user: "{{ ansible_user }}"
+      #become_user: "{{ ansible_user }}"
       shell: /usr/bin/gnome-shell-extension-tool -e user-theme@gnome-shell-extensions.gcampax.github.com
 
     - name: Install Dash to Dock GNOME Shell Extension
-      become_user: "{{ ansible_user }}"
+      #become_user: "{{ ansible_user }}"
       shell: /usr/bin/gnome-shell-extension-tool -e dash-to-dock@micxgx.gmail.com
 
     - name: Install Desktop Icons GNOME Shell Extension
-      become_user: "{{ ansible_user }}"
+      #become_user: "{{ ansible_user }}"
       shell: /usr/bin/gnome-shell-extension-tool -e desktop-icons@csoriano
 
     - name: Enable Dash to Dock extension
-      become_user: "{{ ansible_user }}"
+      #become_user: "{{ ansible_user }}"
       shell: /usr/bin/gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false && /usr/bin/gsettings set org.gnome.shell.extensions.dash-to-dock autohide false
 
     - name: Restart GNOME Shell
-      become_user: "{{ ansible_user }}"
+      #become_user: "{{ ansible_user }}"
       shell: /usr/bin/gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell --method org.gnome.Shell.Eval "Main.restart('Restarting…')"
